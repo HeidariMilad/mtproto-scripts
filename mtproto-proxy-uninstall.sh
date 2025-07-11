@@ -77,7 +77,7 @@ if command -v ufw &> /dev/null; then
     echo "🔥 Checking firewall rules..."
     
     # Get list of MTProto related rules
-    RULES=$(sudo ufw status numbered | grep -E "(9443|8443|7443|6443|5443|4443|3129)" | awk '{print $1}' | tr -d '[]' | sort -nr)
+    RULES=$(sudo ufw status numbered | grep -E "(443|9443|8443|7443|6443|5443|4443|3129)" | awk '{print $1}' | tr -d '[]' | sort -nr)
     
     if [[ -n "$RULES" ]]; then
         echo "🔥 Removing firewall rules..."

@@ -78,9 +78,9 @@ echo "📁 Creating directories..."
 sudo mkdir -p /etc/mtg
 sudo mkdir -p /var/log/mtg
 
-# Find available port
+# Find available port (prioritize 443)
 echo "🔍 Finding available port..."
-PORTS=(9443 8443 7443 6443 5443 4443)
+PORTS=(443 9443 8443 7443 6443 5443 4443)
 PORT=""
 for p in "${PORTS[@]}"; do
     if ! sudo lsof -i :$p > /dev/null 2>&1; then
@@ -110,6 +110,10 @@ ip = "0.0.0.0"
 port = 3129
 EOF
 
+# Set capabilities for binding to privileged ports
+echo "🔒 Setting capabilities for privileged ports..."
+sudo setcap 'cap_net_bind_service=+ep' /usr/local/bin/mtg
+
 # Create systemd service
 echo "🔧 Creating systemd service..."
 sudo tee /etc/systemd/system/mtg.service > /dev/null <<EOF
@@ -126,6 +130,8 @@ Restart=always
 RestartSec=5
 StandardOutput=journal
 StandardError=journal
+# Allow binding to privileged ports
+AmbientCapabilities=CAP_NET_BIND_SERVICE
 
 [Install]
 WantedBy=multi-user.target

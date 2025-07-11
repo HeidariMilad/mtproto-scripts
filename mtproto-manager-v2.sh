@@ -180,7 +180,7 @@ uninstall_proxy() {
         
         # Clean up firewall rules
         if command -v ufw &> /dev/null; then
-            RULES=$(sudo ufw status numbered | grep -E "(9443|8443|7443|6443|5443|4443|3129)" | awk '{print $1}' | tr -d '[]' | sort -nr)
+            RULES=$(sudo ufw status numbered | grep -E "(443|9443|8443|7443|6443|5443|4443|3129)" | awk '{print $1}' | tr -d '[]' | sort -nr)
             if [[ -n "$RULES" ]]; then
                 while IFS= read -r rule_num; do
                     if [[ -n "$rule_num" ]]; then
