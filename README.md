@@ -139,13 +139,14 @@ Click the generated connection URL or paste it in your browser.
 
 ### Port Selection
 The installer automatically finds available ports in this order:
-- 9443 (preferred)
-- 8443, 7443, 6443, 5443, 4443
+- 443 (preferred - HTTPS port for better bypass capability)
+- 9443, 8443, 7443, 6443, 5443, 4443
 
 ### Firewall Configuration
 The installer automatically configures UFW if available:
-- Opens the proxy port (9443)
+- Opens the proxy port (443 or alternative if occupied)
 - Opens the stats port (3129)
+- Sets proper capabilities for binding to privileged ports
 
 ### Service Management
 ```bash
